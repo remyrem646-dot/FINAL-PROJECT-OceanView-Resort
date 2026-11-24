@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Welcome to Ocean View Resort and Beach – Batangas" />
+  <title>Welcome | Ocean View</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/welcome.css' %}" />
+</head>
+<body>
+
+  <!-- Side nav: icons only until the mouse is on it, then it expands -->
+  <nav class="side-nav" id="side-nav" aria-label="Main navigation">
+    <a class="side-brand" href="{% url 'home' %}" aria-label="Ocean View landing page">
+      <img class="side-logo" src="{% static 'img/logo-ov.png' %}" alt="" />
+      <span class="side-brand-text">Ocean View</span>
+    </a>
+
+    <div class="side-links">
+      <a class="side-link is-current" href="{% url 'welcome' %}" aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg>
+        <span class="side-label">Home</span>
+      </a>
+      <a class="side-link" href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18V8"/><path d="M3 14h18v4"/><path d="M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="11" r="1.6"/></svg>
+        <span class="side-label">Room &amp; Suites</span>
+      </a>
+      <a class="side-link" href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v9"/><path d="m8.5 9.5 3.5 3.5 3.5-3.5"/><path d="M4 14h16a8 6 0 0 1-16 0Z"/></svg>
+        <span class="side-label">Amenities</span>
+      </a>
+      <a class="side-link" href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3.5 2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8L3.6 9.6l5.8-.8L12 3.5Z"/></svg>
+        <span class="side-label">Special Rates</span>
+      </a>
+      <a class="side-link is-muted" href="#" aria-disabled="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6.5-5.8 6.5-11A6.5 6.5 0 0 0 5.5 10c0 5.2 6.5 11 6.5 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>
+        <span class="side-label">Location</span>
+      </a>
+      <a class="side-link is-muted" href="#" aria-disabled="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="m4 17 5-4.5 3.5 3 3-2.5L20 17"/></svg>
+        <span class="side-label">Gallery</span>
+      </a>
+    </div>
+  </nav>
+
+  <main class="welcome">
+    <div class="welcome-inner">
+
+      <section class="welcome-copy reveal" aria-label="Welcome">
+        <h1>
+          Ocean View offers you the experience of luxury accommodating
+          with the incredible views of the Batangas beach
+        </h1>
+      </section>
+
+      <section class="collage" aria-label="Photos of Ocean View">
+        <figure class="shot shot-a reveal">
+          <img src="{% static 'img/ocean.png' %}" alt="Lounge chairs on the lawn facing the sea" loading="lazy" />
+        </figure>
+        <figure class="shot shot-b reveal">
+          <img src="{% static 'img/swing.png' %}" alt="Guest on a beach swing over clear water" loading="lazy" />
+        </figure>
+        <figure class="shot shot-c reveal">
+          <img src="{% static 'img/view.png' %}" alt="White resort building with arched entrance and garden" loading="lazy" />
+        </figure>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    // Touch screens have no hover: tap the rail to open it, tap elsewhere to close.
+    const rail = document.getElementById('side-nav');
+
+    rail.addEventListener('click', (e) => {
+      const noHover = window.matchMedia('(hover: none)').matches;
+      if (noHover && !rail.classList.contains('is-open')) {
+        e.preventDefault();
+        rail.classList.add('is-open');
+      }
+    });
+    document.addEventListener('click', (e) => { if (!rail.contains(e.target)) rail.classList.remove('is-open'); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') rail.classList.remove('is-open'); });
+  </script>
+</body>
+</html>

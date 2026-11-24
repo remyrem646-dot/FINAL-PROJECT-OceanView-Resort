@@ -1,0 +1,297 @@
+/* ==========================================================
+   Ocean View – Welcome page (homepage 2)
+   ========================================================== */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --sky: #4cb8ff;
+  --blue: #1e9be8;
+  --rail-w: 76px;       /* collapsed side nav (icons only) */
+  --rail-open: 300px;   /* expanded side nav (icons + labels) */
+  --font-body: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* font of the welcome text – alternatives: "Cormorant Garamond", "Playfair Display", "Marcellus" */
+  --font-welcome: "Cinzel", Georgia, "Times New Roman", serif;
+  --ease: cubic-bezier(.22, .8, .25, 1);
+}
+
+html { font-size: 16px; }
+
+body {
+  min-height: 100vh;
+  background: #0b1216;
+  font-family: var(--font-body);
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================
+   SIDE NAV  – collapsed = icons only, hover = full labels
+   ========================================================== */
+.side-nav {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 30;
+  width: var(--rail-w);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: rgba(14, 18, 20, .55);
+  border-right: 1px solid rgba(255, 255, 255, .16);
+  box-shadow: 4px 0 30px rgba(0, 0, 0, .25);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+          backdrop-filter: blur(20px) saturate(140%);
+  transition: width .35s var(--ease), background .3s ease, box-shadow .3s ease;
+}
+
+.side-nav:is(:hover, :focus-within, .is-open) {
+  width: var(--rail-open);
+  background: rgba(12, 14, 15, .8);
+  box-shadow: 12px 0 50px rgba(0, 0, 0, .45);
+}
+
+/* logo + name */
+.side-brand {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex: none;
+  height: 88px;
+  padding: 0 18px;
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, .28);
+}
+
+.side-logo {
+  flex: none;
+  width: 40px; height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+  transition: transform .3s var(--ease);
+}
+.side-brand:hover .side-logo { transform: scale(1.08); }
+
+.side-brand-text {
+  font-weight: 400;
+  font-size: 1.05rem;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.side-brand:focus-visible,
+.side-link:focus-visible { outline: 3px solid rgba(76, 184, 255, .8); outline-offset: -3px; }
+
+/* links */
+.side-links {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(.25rem, 3.2vh, 1.5rem);
+  padding-top: clamp(1rem, 6vh, 3rem);
+}
+
+.side-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  height: 60px;
+  padding: 0 24px;   /* keeps icons fixed in place while the bar expands */
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .2s ease, color .2s ease;
+}
+
+.side-link svg {
+  flex: none;
+  width: 28px; height: 28px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform .25s var(--ease);
+}
+
+.side-label {
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+/* labels fade in only when the rail is expanded */
+.side-brand-text,
+.side-label {
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity .2s ease, transform .3s var(--ease);
+}
+.side-nav:is(:hover, :focus-within, .is-open) .side-brand-text,
+.side-nav:is(:hover, :focus-within, .is-open) .side-label {
+  opacity: 1;
+  transform: none;
+  transition-delay: .1s;
+}
+
+.side-link:hover {
+  background: rgba(255, 255, 255, .08);
+  color: var(--sky);
+}
+.side-link:hover svg { transform: scale(1.12); }
+
+/* current page */
+.side-link.is-current { color: var(--sky); }
+.side-link.is-current::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 50%;
+  width: 3px; height: 36px;
+  transform: translateY(-50%);
+  border-radius: 0 3px 3px 0;
+  background: var(--sky);
+}
+
+/* pages that don't exist yet */
+.side-link.is-muted { color: rgba(255, 255, 255, .6); }
+.side-link.is-muted:hover { color: #fff; }
+
+/* ==========================================================
+   WELCOME CONTENT
+   ========================================================== */
+.welcome {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding:
+    clamp(1.5rem, 5vh, 3rem)
+    clamp(1rem, 4vw, 4rem)
+    clamp(1.5rem, 5vh, 3rem)
+    calc(var(--rail-w) + clamp(1.2rem, 4vw, 4rem));
+}
+
+/* softly blurred, darkened photo */
+.welcome::before {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  z-index: -2;
+  background: url("../img/welcome.jpg") center / cover no-repeat, #0d2430;
+  filter: blur(5px) brightness(.55) saturate(1.1);
+}
+.welcome::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(5, 12, 18, .65), rgba(5, 12, 18, .25) 60%, rgba(5, 12, 18, .4));
+}
+
+.welcome-inner {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+/* ---------- welcome text (glass) ---------- */
+.welcome-copy {
+  position: relative;
+  padding: clamp(2rem, 3.6vw, 3.6rem);
+  background: rgba(8, 16, 22, .42);
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .25);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+          backdrop-filter: blur(14px) saturate(140%);
+}
+
+.welcome-copy::before {
+  content: "";
+  display: block;
+  width: 140px; height: 4px;
+  margin-bottom: 1.4rem;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--sky), rgba(30, 155, 232, .3));
+}
+
+.welcome-copy h1 {
+  font-family: var(--font-welcome);
+  font-weight: 500;
+  font-size: clamp(1.1rem, 1.9vw, 1.65rem);
+  line-height: 1.95;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .55);
+}
+
+/* ---------- photo collage ---------- */
+.collage {
+  justify-self: center;
+  height: min(72vh, 620px);
+  aspect-ratio: .92;
+  display: grid;
+  grid-template-columns: 1.04fr 1fr;
+  grid-template-rows: 1.68fr 1fr;
+  gap: clamp(8px, 1vw, 14px);
+}
+
+.shot {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, .3);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .45);
+  background: #12303f;
+}
+
+.shot img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform .7s var(--ease), filter .4s ease;
+}
+.shot:hover img { transform: scale(1.06); filter: brightness(1.06); }
+
+.shot-c { grid-column: 1 / -1; }
+
+/* ---------- entrance ---------- */
+.reveal { animation: rise .8s var(--ease) both; }
+.shot-a { animation-delay: .1s; }
+.shot-b { animation-delay: .2s; }
+.shot-c { animation-delay: .3s; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+@media (max-width: 900px) {
+  .welcome { align-items: flex-start; padding-top: 2rem; }
+  .welcome-inner { grid-template-columns: 1fr; }
+  .collage { width: min(100%, 520px); height: auto; }
+}
+
+@media (max-width: 560px) {
+  :root { --rail-w: 64px; --rail-open: 260px; }
+  .side-link { padding: 0 18px; }
+  .side-brand { padding: 0 12px; }
+  .welcome-copy h1 { letter-spacing: .05em; line-height: 1.8; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
